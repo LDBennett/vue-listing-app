@@ -9,7 +9,6 @@
 
       <tbody>
         <tr v-for="employee in employees" :key="employee.id">
-          <td>{{ employee.id }}</td>
           <td>{{ employee.name }}</td>
           <td>{{ employee.email }}</td>
         </tr>

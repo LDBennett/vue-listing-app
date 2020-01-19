@@ -27,10 +27,6 @@ export default {
     return {
       headers:[
         {
-          id: 1,
-          name: 'ID',
-        },
-        {
           id: 2,
           name: 'Name'
         },

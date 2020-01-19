@@ -3,29 +3,29 @@
     <form @submit.prevent="handleSubmit">
       <div class="row">
         <p v-if="error && submitting" class="error-message">
-          ❗Please fill out all required fields
+          ❗All Fields Must Be Filled Out
         </p>
         <p v-if="success" class="success-message">
-          ✅ Employee successfully added
+          ✅ Item Successfully Added
         </p>
       </div>
       <div class="row">
         <div class="six columns">
-          <label>Employee name</label>
+          <label :class="{ 'error': submitting && invalidName }">Employee name</label>
           <input
             type="text"
             ref="first"
-            :class="{ 'has-error': submitting && invalidName }"
+            :class="{ 'error': submitting && invalidName }"
             v-model="employee.name"
             @focus="clearStatus"
             @keypress="clearStatus"
           />
         </div>
         <div class="six columns">
-          <label>Employee Email</label>
+          <label :class="{ 'error': submitting && invalidEmail }">Employee Email</label>
           <input
             type="text"
-            :class="{ 'has-error': submitting && invalidEmail }"
+            :class="{ 'error': submitting && invalidEmail }"
             v-model="employee.email"
             @focus="clearStatus"
           />

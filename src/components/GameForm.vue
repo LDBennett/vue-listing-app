@@ -11,7 +11,7 @@
       </div>
       <div class="row form-container text-center">
         <div class="form-input">
-          <label :class="{ 'error': submitting && invalidName }">Game Name</label>
+          <label :class="{ 'error': submitting && invalidName }">Game</label>
           <input
             type="text"
             ref="first"
@@ -53,6 +53,8 @@
           name: '',
           system: '',
           new: true,
+          progress: 0,
+          complete_status: "none"
         },
       }
     },
@@ -100,7 +102,7 @@
 
 <style lang="scss" scoped>
   select{
-    min-width: 20rem;
+    min-width: 17rem;
     option{
       font-size: 1.5rem;
       font-family: 'Montserrat';
@@ -127,6 +129,10 @@
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: center;
+    }
     .form-input{
       display: flex;
       align-items: baseline;

@@ -18,9 +18,11 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 import GameTable from '@/components/GameTable.vue'
 import GameForm from '@/components/GameForm.vue'
+
+import { SHEETS_API_URL, SHEETS_API_ID } from '@/config.js'
 
 import './styles/app.scss';
 
@@ -32,6 +34,7 @@ export default {
   },
   data() {
     return {
+      games: [],
       systemOptions: [
         {
           id: 1,
@@ -57,29 +60,38 @@ export default {
         },
         {
           id: 3,
+          name: 'Progress'
+        },
+        {
+          id: 4,
+          name: 'Complete'
+        },
+        {
+          id: 5,
           name: 'Actions'
         }
-      ],
-      games: [
-        {
-          id: 1,
-          name: 'Star Wars: Jedi Fallen Order',
-          system: 'Xbox',
-        },
-        {
-          id: 2,
-          name: 'Kingdom Hearts III',
-          system: 'PS4',
-        },
-        {
-          id: 3,
-          name: 'Tetris 99',
-          system: 'Switch',
-        },
-      ],
+      ]
     }
   },
+  mounted(){
+    this.getGames()
+  },
   methods: {
+    // Get the game list
+    async getGames() {
+      axios.get(SHEETS_API_URL , {
+        params: {
+          spreadsheetId: SHEETS_API_ID,
+          limit: 40
+        }
+      })
+      .then(response => {
+        this.games = response.data.results
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    },
     // Add Game
     addGame(game) {
       let lastId =
@@ -93,6 +105,7 @@ export default {
       game.new = true;
 
       this.games = [...this.games, newGame];
+
     },
     // Delete Game
     deleteGame(id) {

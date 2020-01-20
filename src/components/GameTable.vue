@@ -8,7 +8,12 @@
     <table v-else class="u-full-width">
       <thead>
         <tr>
-          <th v-for="header in headers" :key="header.id">{{ header.name }}</th>
+          <th
+            v-for="header in headers"
+            :key="header.id"
+            :class="{ 'responsive-table-field': header.id == 3 || header.id == 4}">
+            {{ header.name }}
+          </th>
         </tr>
       </thead>
 
@@ -26,7 +31,23 @@
               <option v-for="system in systemOptions" :key="system.id" :value="system.title">{{system.title}}</option>
             </select>
           </td>
-          <td v-else>{{ game.system }}</td>
+          <td v-else>
+            <img :alt="game.system" height="15" width="15" :src="getGameSystemIcon(game.system)" />
+            {{ game.system }}
+          </td>
+
+          <td class="responsive-table-field">
+            <div class="progress-container">
+              {{game.progress}}
+              <div class="progress" :style="{ width: game.progress + '%'}"></div>
+            </div>
+          </td>
+
+          <td class="text-center responsive-table-field">
+            <stop-circle-icon v-if="game.complete_status === 'none'"/>
+            <play-circle-icon v-else-if="game.complete_status === 'start'"/>
+            <book-open-icon v-else-if="game.complete_status === 'dlc'"/>
+          </td>
 
           <td v-if="editing === game.id" class="action-btns">
             <button
@@ -52,7 +73,13 @@
 
         </tr>
       </tbody>
-
+      <tfoot>
+        <tr>
+          <stop-circle-icon size="1.1x"/> "Not Played"
+          <play-circle-icon size="1.1x"/> "Started"
+          <book-open-icon size="1.1x"/> "DLC Start"
+        </tr>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -63,7 +90,11 @@
     XIcon,
     XCircleIcon,
     SaveIcon,
-    CornerDownLeftIcon } from 'vue-feather-icons'
+    CornerDownLeftIcon,
+    StopCircleIcon,
+    PlayCircleIcon,
+    BookOpenIcon,
+  } from 'vue-feather-icons'
 
   export default {
     name: 'game-table',
@@ -72,7 +103,10 @@
       XIcon,
       XCircleIcon,
       SaveIcon,
-      CornerDownLeftIcon
+      CornerDownLeftIcon,
+      StopCircleIcon,
+      PlayCircleIcon,
+      BookOpenIcon
     },
     props: {
       headers: Array,
@@ -86,6 +120,18 @@
       }
     },
     methods: {
+      getGameSystemIcon(system){
+        let baseUrl = "https://unpkg.com/simple-icons@2.2.0/icons/";
+        switch(system) {
+          case "Xbox":
+            return baseUrl + "xbox.svg";
+          case "PS4":
+            return baseUrl + "playstation.svg";
+          case "Switch":
+            return baseUrl + "nintendoswitch.svg";
+        }
+        return baseUrl + system.toLowerCase()  + '.svg'
+      },
       // Edit game method
       editGame(game) {
         // If the game name or system is blank
@@ -128,7 +174,7 @@
   }
   td{
     &:first-of-type{
-      width: 60%;
+      width: 50%;
     }
   }
   .action-btns{
@@ -144,4 +190,29 @@
   .new{
     color: green;
   }
+  .progress-container{
+    position: relative;
+    text-align: center;
+    border: 1px solid lightslategrey;
+    border-radius: .5rem;
+    .progress{
+      background: cadetblue;
+      height: 100%;
+      border-radius: .2rem;
+      min-width: 5px;
+      position: absolute;
+      top: 0;
+      left: -1px;
+      z-index: -999;
+      display: block;
+      transition: all .5s ease-out;
+    }
+  }
+
+  .responsive-table-field{
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+
 </style>

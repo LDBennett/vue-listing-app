@@ -5,6 +5,8 @@ node_modules
 # local env files
 .env.local
 .env.*.local
+.env
+config.js
 
 # Log files
 npm-debug.log*
@@ -19,4 +21,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Lock file(s)
 pnpm-lock.yaml

@@ -1,81 +1,118 @@
 <template>
   <div id="app" class="container">
-    <h1>Employees</h1>
+    <h1 class="text-center app-title">GAMES LIST</h1>
     <div class="row">
-      <EmployeeForm @add:employee="addEmployee" />
+      <game-form
+      :systemOptions="systemOptions"
+      @add:game="addGame" />
     </div>
     <div class="row">
-      <EmployeeTable :employees="employees" :headers="headers"/>
+      <game-table
+      :games="games"
+      :headers="headers"
+      :systemOptions="systemOptions"
+      @delete:game="deleteGame"
+      @edit:game="editGame"/>
     </div>
   </div>
 </template>
 
 <script>
 
-import EmployeeTable from '@/components/EmployeeTable.vue'
-import EmployeeForm from '@/components/EmployeeForm.vue'
+import GameTable from '@/components/GameTable.vue'
+import GameForm from '@/components/GameForm.vue'
 
 import './styles/app.scss';
 
 export default {
   name: 'app',
   components: {
-    EmployeeTable,
-    EmployeeForm,
+    GameTable,
+    GameForm,
   },
   data() {
     return {
-      headers:[
+      systemOptions: [
+        {
+          id: 1,
+          title: 'Xbox'
+        },
         {
           id: 2,
+          title: 'PS4'
+        },
+        {
+          id: 3,
+          title: 'Switch'
+        },
+      ],
+      headers:[
+        {
+          id: 1,
           name: 'Name'
         },
         {
+          id: 2,
+          name: 'System'
+        },
+        {
           id: 3,
-          name: 'Email'
+          name: 'Actions'
         }
       ],
-      employees: [
+      games: [
         {
           id: 1,
-          name: 'Richard Hendricks',
-          email: 'richard@piedpiper.com',
+          name: 'Star Wars: Jedi Fallen Order',
+          system: 'Xbox',
         },
         {
           id: 2,
-          name: 'Bertram Gilfoyle',
-          email: 'gilfoyle@piedpiper.com',
+          name: 'Kingdom Hearts III',
+          system: 'PS4',
         },
         {
           id: 3,
-          name: 'Dinesh Chugtai',
-          email: 'dinesh@piedpiper.com',
+          name: 'Tetris 99',
+          system: 'Switch',
         },
       ],
     }
   },
   methods: {
-    addEmployee(employee) {
+    // Add Game
+    addGame(game) {
       let lastId =
-        this.employees.length > 0
-          ? this.employees[this.employees.length - 1].id
+        this.games.length > 0
+          ? this.games[this.games.length - 1].id
           : 0;
       let id = lastId + 1;
-      let newEmployee = { ...employee, id };
+      let newGame = { ...game, id };
 
-      this.employees = [...this.employees, newEmployee];
+      // Differentiates added games with a type
+      game.new = true;
+
+      this.games = [...this.games, newGame];
     },
+    // Delete Game
+    deleteGame(id) {
+      // Creates a new array that removes the game
+      this.games = this.games.filter(
+        game => game.id !== id
+      )
+    },
+    // Edit Game
+    editGame(id, updatedGame) {
+      this.games = this.games.map(game =>
+        game.id === id ? updatedGame : game
+      )
+    }
   },
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .app-title{
+    margin: 5rem 0;
+  }
 </style>

@@ -32,8 +32,8 @@
             </select>
           </td>
           <td v-else>
-            <img :alt="game.system" height="15" width="15" :src="getGameSystemIcon(game.system)" />
-            {{ game.system }}
+            <!-- <img :alt="game.system" height="15" width="15" :src="getGameSystemIcon(game.system)" /> -->
+            <game-system-icon :type="game.system" :size="20"/>
           </td>
 
           <td class="responsive-table-field">
@@ -95,6 +95,7 @@
     PlayCircleIcon,
     BookOpenIcon,
   } from 'vue-feather-icons'
+  import GameSystemIcon from '@/components/GameSystemIcon.vue'
 
   export default {
     name: 'game-table',
@@ -106,7 +107,8 @@
       CornerDownLeftIcon,
       StopCircleIcon,
       PlayCircleIcon,
-      BookOpenIcon
+      BookOpenIcon,
+      GameSystemIcon
     },
     props: {
       headers: Array,
@@ -130,6 +132,7 @@
           case "Switch":
             return baseUrl + "nintendoswitch.svg";
         }
+        console.log(system.toLowerCase());
         return baseUrl + system.toLowerCase()  + '.svg'
       },
       // Edit game method
@@ -156,6 +159,9 @@
 </script>
 
 <style lang="scss" scoped>
+  table{
+    border-collapse: collapse;
+  }
   .empty-table{
     display: flex;
     justify-content: center;

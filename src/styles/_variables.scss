@@ -1,1 +1,10 @@
 // Variables used in application
+:root {
+  --font-color: #424242;
+  --bg-color: #fff;
+}
+
+[data-theme="dark"] {
+  --font-color: #e6eaed;
+  --bg-color: #373c40;
+}

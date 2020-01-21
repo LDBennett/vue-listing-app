@@ -1,6 +1,14 @@
 <template>
   <div id="app" class="container">
-    <h1 class="text-center app-title">GAMES LIST</h1>
+    <toggle-button
+      class="toggle-btn"
+      :value="false"
+      color="cadetblue"
+      :width="75"
+      :labels="{checked: 'Dark', unchecked: 'Light'}"
+      @change="changeTheme"/>
+
+    <h1 class="text-center app-title">DigitalNinjaLee <br/><small>Video Game Backlog</small></h1>
     <div class="row">
       <game-form
       :systemOptions="systemOptions"
@@ -19,6 +27,7 @@
 
 <script>
 import axios from 'axios'
+import { ToggleButton } from 'vue-js-toggle-button'
 import GameTable from '@/components/GameTable.vue'
 import GameForm from '@/components/GameForm.vue'
 
@@ -26,14 +35,17 @@ import { SHEETS_API_URL, SHEETS_API_ID } from '@/config.js'
 
 import './styles/app.scss';
 
+
 export default {
   name: 'app',
   components: {
     GameTable,
     GameForm,
+    ToggleButton
   },
   data() {
     return {
+      theme: 'light',
       games: [],
       systemOptions: [
         {
@@ -119,13 +131,35 @@ export default {
       this.games = this.games.map(game =>
         game.id === id ? updatedGame : game
       )
+    },
+    changeTheme(){
+      if (this.theme == 'light'){
+        document.documentElement.setAttribute('data-theme', 'dark');
+        this.theme = 'dark';
+      }
+      else{
+        document.documentElement.setAttribute('data-theme', 'light');
+        this.theme = 'light';
+      }
     }
   },
 }
 </script>
 
-<style>
+<style lang="scss">
+  .toggle-btn{
+    float:right;
+  }
   .app-title{
     margin: 5rem 0;
+    @media (max-width: 500px){
+      font-size: 3rem;
+    }
+    small{
+      font-size: 3rem;
+      @media (max-width: 500px){
+        font-size: 2rem;
+      }
+    }
   }
 </style>

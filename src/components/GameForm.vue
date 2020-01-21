@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
   export default {
     name: 'game-form',
     props: {

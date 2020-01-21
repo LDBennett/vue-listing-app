@@ -122,19 +122,6 @@
       }
     },
     methods: {
-      getGameSystemIcon(system){
-        let baseUrl = "https://unpkg.com/simple-icons@2.2.0/icons/";
-        switch(system) {
-          case "Xbox":
-            return baseUrl + "xbox.svg";
-          case "PS4":
-            return baseUrl + "playstation.svg";
-          case "Switch":
-            return baseUrl + "nintendoswitch.svg";
-        }
-        console.log(system.toLowerCase());
-        return baseUrl + system.toLowerCase()  + '.svg'
-      },
       // Edit game method
       editGame(game) {
         // If the game name or system is blank
